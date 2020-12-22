@@ -3,6 +3,6 @@
 
 ## Goals
 
-* **Robust** Solid behavior is a primary goal. (see [Stability](#stability)).
-* **Easy** Ease of use is a main goal.
-* **Scalable** Should be very simple to build clusters.
+* **Robust** Solid, production-suitable behavior is a primary goal.
+* **Easy of Use** The ability for developers, junior-devops, and tech broadcasters to use quickly and without struggle is a primary goal.
+* **Scalable** Should be very simple to build robust clusters.

@@ -10,7 +10,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	golang.org/x/sync v0.0.0-20201207232520-09787c993a3a
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
-	nhooyr.io/websocket v1.8.6
 )
+
 
 replace github.com/cameronelliott/janus-go => ../janus-go

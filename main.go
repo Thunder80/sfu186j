@@ -122,10 +122,10 @@ func main2() (exitcode int) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel() // good practice
 
-	
-	janusURL:="ws://localhost:8188/ws"
+	janusURL := "ws://localhost:8188/ws"
 
-	gateway, err = janus.Connect(ctx, janusURL)
+	var group *errgroup.Group
+	gateway, group, err = janus.Connect(ctx, janusURL)
 	if err != nil {
 		panic(err)
 	}
@@ -140,17 +140,12 @@ func main2() (exitcode int) {
 
 	// 60 second timeout on sessions
 	// https://janus.conf.meetecho.com/docs/rest.html#WS
-	go func() {
-		err = session.KeepAliveSender(ctx)
-		println("KeepAliveSender died")
-		if err != nil {
-			panic(err)
-		}
-	}()
+	// This is a fancy 'Go' that allows catching errors
+	group.Go(func() error { return session.KeepAliveSender(ctx) })
 
-	rxpath:="/rx"
-	txpath:="/tx"
-	_=txpath
+	rxpath := "/rx"
+	txpath := "/tx"
+	_ = txpath
 
 	mux := http.NewServeMux()
 	mux.HandleFunc(rxpath, rxwhip)
@@ -164,20 +159,22 @@ func main2() (exitcode int) {
 
 	//go killme(ctx)
 
-	err = http.Serve(ln, mux)
-	if err != nil {
-		panic(err)
-	}
+	group.Go(func() error { return http.Serve(ln, mux) })
 
+	//this should have four goroutines in it
+	// 1. connection janus.ping()
+	// 2. connection janus.recv()
+	// 3. session keepalive sender
+	// 4. the http.Serve
+	// if any return an error, this will return with it
+	err = group.Wait()
+	panic(err)
 	//http.ListenAndServe()
 
 	// err = HTTPS([]string{"kego.com"}, mux) // https automagic
 	// panic(err)
 
-	return
 }
-
-
 
 // func validateMsgtype(jmsg *JanusMessage) (bool, error) {
 // 	switch m := jmsg.specific.(type) {

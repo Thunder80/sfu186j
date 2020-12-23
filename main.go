@@ -16,6 +16,8 @@ import (
 	"syscall"
 	"time"
 
+	"golang.org/x/sync/errgroup"
+
 	janus "github.com/cameronelliott/janus-go"
 )
 
@@ -31,7 +33,6 @@ func checkPanic(err error) {
 // 		os.Exit(-1)
 // 	}
 // }
-
 
 func logJson(m []byte, wasrx bool) {
 	prefix := "<"
@@ -98,10 +99,6 @@ var noStartJanus = flag.Bool("dev-no-janus", false, "developer flag: do not star
 func main() { os.Exit(main2()) }
 //can combine return X with defer func()
 func main2() (exitcode int) {
-
-
-
-
 	var err error
 	flag.Parse()
 
@@ -119,10 +116,8 @@ func main2() (exitcode int) {
 	} else {
 		log.Println("starting janus")
 		startJanusInstance()
-		time.Sleep(time.Millisecond * 100) 
+		time.Sleep(time.Millisecond * 100)
 	}
-
-
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel() // good practice

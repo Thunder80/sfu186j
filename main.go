@@ -1,10 +1,7 @@
 package main
 
 import (
-	//"bytes"
-	"bytes"
 	"context"
-	"encoding/json"
 	"flag"
 	"io/ioutil"
 	"log"
@@ -26,24 +23,7 @@ func checkPanic(err error) {
 	}
 }
 
-// func checkFatal(err error, msg string) {
-// 	if err != nil {
-// 		println(msg, err) // print to stderr
-// 		os.Exit(-1)
-// 	}
-// }
 
-func logJson(m []byte, wasrx bool) {
-	prefix := "<"
-	if !wasrx {
-		prefix = ">"
-	}
-	// log message being sent
-	var log bytes.Buffer
-	_ = json.Indent(&log, m, prefix, "   ")
-	log.Write([]byte("\n"))
-	_, _ = log.WriteTo(os.Stdout)
-}
 
 
 

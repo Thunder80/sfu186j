@@ -12,34 +12,31 @@ import (
 	janus "github.com/cameronelliott/janus-go"
 )
 
-
-
 func watchHandle(h *janus.Handle) {
 	// wait for event
 	for {
-		select {
-		case msg := <-h.Events:
-			switch msg := msg.(type) {
-			case *janus.SlowLinkMsg:
-				log.Println("SlowLinkMsg type ", h.ID)
-			case *janus.MediaMsg:
-				log.Println("MediaEvent type", msg.Type, " receiving ", msg.Receiving)
-			case *janus.WebRTCUpMsg:
-				log.Println("WebRTCUp type ", h.ID)
-			case *janus.HangupMsg:
-				log.Println("HangupEvent type ", h.ID)
-				_, err := h.Detach(context.Background())
-				if err != nil {
-					println(err.Error())
-				}
-				return // exit go routine on handle detach
-			case *janus.EventMsg:
-				log.Printf("EventMsg %+v", msg.Plugindata.Data)
+		msg := <-h.Events
+		
+		switch msg := msg.(type) {
+		case *janus.SlowLinkMsg:
+			log.Println("SlowLinkMsg type ", h.ID)
+		case *janus.MediaMsg:
+			log.Println("MediaEvent type", msg.Type, " receiving ", msg.Receiving)
+		case *janus.WebRTCUpMsg:
+			log.Println("WebRTCUp type ", h.ID)
+		case *janus.HangupMsg:
+			log.Println("HangupEvent type ", h.ID)
+			_, err := h.Detach(context.Background())
+			if err != nil {
+				println(err.Error())
 			}
+			return // exit go routine on handle detach
+		case *janus.EventMsg:
+			log.Printf("EventMsg %+v", msg.Plugindata.Data)
 		}
 	}
-}
 
+}
 
 var ingestAttempted bool = false
 var ingestHandle *janus.Handle
@@ -166,8 +163,3 @@ func publishJanusVideoRoom(ctx context.Context, offerSDP string) (string, int, e
 	log.Println("got the answer SDP back from janus")
 	return msg.Jsep["sdp"].(string), http.StatusAccepted, nil
 }
-
-
-
-
-

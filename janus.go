@@ -34,6 +34,7 @@ func watchHandle(h *janus.Handle) {
 				if err != nil {
 					println(err.Error())
 				}
+				return // exit go routine on handle detach
 			case *janus.EventMsg:
 				log.Printf("EventMsg %+v", msg.Plugindata.Data)
 			}

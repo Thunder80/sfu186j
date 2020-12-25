@@ -5,13 +5,11 @@ import (
 
 	"fmt"
 	"io/ioutil"
-
-	// do not import "log", see comments below
+	"log"
 
 	"net/http"
 
 	janus "github.com/cameronelliott/janus-go"
-	"golang.org/x/sync/errgroup"
 )
 
 

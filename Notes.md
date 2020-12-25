@@ -4,8 +4,15 @@
 # Design Notes
 
 ## minimalist logging philiosophy
-// two levels: debug, fatal
-// debug goes to stdout: fmt.print....
-// fatal goes to stderr: panic, etc.
-// thus we don't need to import log
-// https://dave.cheney.net/2015/11/05/lets-talk-about-logging
+
+- just three level concepts (no defines): debug, fatal
+- try not to use fmt.Print*
+- debug goes to stdout: log.Print*
+- info goes to stderr info.Println("ingest webrtc up...")
+- fatal goes to stderr: panic, etc. (println, etc)
+
+
+Good article:
+https://dave.cheney.net/2015/11/05/lets-talk-about-logging
+
+

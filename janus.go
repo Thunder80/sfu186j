@@ -124,13 +124,12 @@ func publishJanusVideoRoom(ctx context.Context, offerSDP string) (string, int, e
 		"id":      1, // janus only allow a single publisher per id
 	}
 
-
-	_, err = handle.Message(ctx, req, nil)
+	_, err = ingestHandle.Message(ctx, req, nil)
 	if err != nil {
-		return "", 0, fmt.Errorf("handle.Message fail %v", err)
+		return "", 0, fmt.Errorf("ingestHandle.Message fail %v", err)
 	}
 
-	msg, err := handle.Message(ctx, map[string]interface{}{
+	msg, err := ingestHandle.Message(ctx, map[string]interface{}{
 		"request": "publish",
 		"audio":   true,
 		"video":   true,

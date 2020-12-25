@@ -90,7 +90,7 @@ func startJanusInstance() {
 }
 
 var gateway *janus.Gateway
-var session *janus.Session
+var session *janus.Session		// just a single handle for the program, all handles
 
 //var silenceJanus = flag.Bool("silence-janus", false, "if true will throw away janus output")
 var debug = flag.Bool("debug", false, "enable debug output")

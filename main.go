@@ -46,10 +46,7 @@ func logJson(m []byte, wasrx bool) {
 	_, _ = log.WriteTo(os.Stdout)
 }
 
-//logging philosophy
-// debugging only goes to io.stdout
-// info goes to stderr
-// errors go to stderr
+
 
 func startJanusInstance() {
 	cmd := exec.Command("/usr/local/bin/janus")

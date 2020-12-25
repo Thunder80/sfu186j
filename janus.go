@@ -95,31 +95,6 @@ func rxwhip(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-// XXX if we dont need to run watch handle,
-// maybe we do away with all this
-
-// no error, this will outlive the http request and it's context,
-// we apparently need to keep the janus session up as long
-// as we want the videoroom publisher or subscriber to work
-func longLifeJanusSession(session *janus.Session, handle *janus.Handle) {
-
-
-
-	ctx := context.Background() //never gets cancelled
-
-	g, ctx := errgroup.WithContext(ctx)
-
-	// XXX
-	//g.Go(func() error { return session.KeepAliveSender(ctx) })
-	g.Go(func() error { return watchHandle(ctx, handle) })
-
-	err := g.Wait()
-	if err != nil {
-		println(fmt.Sprintf("session ended with error %v", err))
-	}
-
-}
-
 //body and return code
 // body is sdp or errorstring
 // code can be:

@@ -104,18 +104,13 @@ func rxwhip(w http.ResponseWriter, req *http.Request) {
 
 func publishJanusVideoRoom(ctx context.Context, offerSDP string) (string, int, error) {
 
-	//no defer session.Destroy()
-	// one handle per publisher or subscribera
-	handle, err := session.Attach(ctx, "janus.plugin.videoroom")
-	if err != nil {
-		return "", 0, fmt.Errorf("session.Attach fail %v", err)
-	}
+	var err error
+	//get a ingestHandle for videoroom
 
-	//no defer handle.Detach()
-
-	// WE DONT WANT THIS FUNCTION TO TERMINATE WHEN SOCKET CLOSES
-	// so we do not pass a context
-	go longLifeJanusSession(session, handle)
+	//this can only fail when a handle detach fails post hangup
+	// we are going to consider thatm'handleable'
+	// and thus we will ignore the err, so we do NOT use group.Go()
+	// we use traditional go f()
 
 	// We only allow a single publisher per room at this time
 	// so we keep id==1

@@ -93,25 +93,28 @@ var session *janus.Session		// just a single handle for the program, all handles
 var debug = flag.Bool("debug", false, "enable debug output")
 var noStartJanus = flag.Bool("dev-no-janus", false, "developer flag: do not start janus")
 
+var info = log.New(os.Stderr, "", log.Lmicroseconds | log.LUTC)
+
 func main() { os.Exit(main2()) }
 //can combine return X with defer func()
 func main2() (exitcode int) {
 	var err error
 	flag.Parse()
 
+
 	if *debug {
 		log.SetFlags(log.Lmicroseconds | log.LUTC)
-		log.Println("debug output IS enabled")
+		info.Println("debug output IS enabled")
 	} else {
-		log.Println("debug output NOT enabled")
+		info.Println("debug output NOT enabled")
 		log.SetOutput(ioutil.Discard)
 		log.SetFlags(0)
 	}
 
 	if *noStartJanus {
-		log.Println("NOT starting janus")
+		info.Println("NOT starting janus")
 	} else {
-		log.Println("starting janus")
+		info.Println("starting janus")
 		startJanusInstance()
 		time.Sleep(time.Millisecond * 100)
 	}

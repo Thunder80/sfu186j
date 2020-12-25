@@ -135,6 +135,7 @@ func main2() (exitcode int) {
 	// one session per handle, or one per connection
 	session, err = gateway.Create(ctx)
 	if err != nil {
+		println("unable to communicate with janus")
 		panic(err)
 	}
 

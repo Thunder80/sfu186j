@@ -46,7 +46,7 @@ func rxwhip(w http.ResponseWriter, req *http.Request) {
 
 	ctx := req.Context() // should be 'Done()' if socket closes
 
-	fmt.Println("got rxwhip request")
+	log.Println("got rxwhip request")
 
 	body, err := ioutil.ReadAll(req.Body)
 	if err != nil {
@@ -68,7 +68,7 @@ func rxwhip(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	fmt.Println("got Answer from Janus, returning to WHIP client")
+	log.Println("got Answer from Janus, returning to WHIP client")
 
 	if code == http.StatusAccepted {
 		w.WriteHeader(http.StatusAccepted)
@@ -166,18 +166,18 @@ func publishJanusVideoRoom(ctx context.Context, offerSDP string) (string, int, e
 	}
 
 	if msg.Jsep == nil || msg.Jsep["sdp"] == nil {
-		fmt.Printf("no jsep or sdp found from janus: %+v\n", msg)
+		log.Printf("no jsep or sdp found from janus: %+v\n", msg)
 
 		if val, ok := msg.Plugindata.Data["error_code"]; ok {
-			fmt.Println("janus error code", val)
+			log.Println("janus error code", val)
 		}
 		if val, ok := msg.Plugindata.Data["error"]; ok {
-			fmt.Println("janus error ", val)
+			log.Println("janus error ", val)
 		}
-		return "no jsep or sdp found from janus", http.StatusServiceUnavailable, nil	
+		return "no jsep or sdp found from janus", http.StatusServiceUnavailable, nil
 	}
 
-	fmt.Println("got the answer SDP back from janus")
+	log.Println("got the answer SDP back from janus")
 	return msg.Jsep["sdp"].(string), http.StatusAccepted, nil
 }
 

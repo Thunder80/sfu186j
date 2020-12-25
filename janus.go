@@ -14,28 +14,28 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-func watchHandle(ctx context.Context, h *janus.Handle) error {
+
+
+func watchHandle(h *janus.Handle) {
 	// wait for event
 	for {
 		select {
-		case <-ctx.Done():
-			return ctx.Err()
 		case msg := <-h.Events:
 			switch msg := msg.(type) {
 			case *janus.SlowLinkMsg:
-				fmt.Println("SlowLinkMsg type ", h.ID)
+				log.Println("SlowLinkMsg type ", h.ID)
 			case *janus.MediaMsg:
-				fmt.Println("MediaEvent type", msg.Type, " receiving ", msg.Receiving)
+				log.Println("MediaEvent type", msg.Type, " receiving ", msg.Receiving)
 			case *janus.WebRTCUpMsg:
-				fmt.Println("WebRTCUp type ", h.ID)
+				log.Println("WebRTCUp type ", h.ID)
 			case *janus.HangupMsg:
-				fmt.Println("HangupEvent type ", h.ID)
-				_, err := h.Detach(ctx)
+				log.Println("HangupEvent type ", h.ID)
+				_, err := h.Detach(context.Background())
 				if err != nil {
 					println(err.Error())
 				}
 			case *janus.EventMsg:
-				fmt.Printf("EventMsg %+v", msg.Plugindata.Data)
+				log.Printf("EventMsg %+v", msg.Plugindata.Data)
 			}
 		}
 	}

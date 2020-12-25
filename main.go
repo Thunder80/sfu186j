@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"flag"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net"
@@ -65,13 +64,13 @@ func startJanusInstance() {
 	checkPanic(err)
 
 	go func() {
-		fmt.Printf("xWaiting for Janus to finish...\n")
+		log.Printf("xWaiting for Janus to finish...\n")
 		if err := cmd.Wait(); err != nil {
-			fmt.Printf("Janus finished with error: %v\n", err)
+			log.Printf("Janus finished with error: %v\n", err)
 			if exiterr, ok := err.(*exec.ExitError); ok {
 
 				if status, ok := exiterr.Sys().(syscall.WaitStatus); ok {
-					fmt.Printf("Janus Exit Status: %d\n", status.ExitStatus())
+					log.Printf("Janus Exit Status: %d\n", status.ExitStatus())
 
 					os.Exit(status.ExitStatus())
 				}
@@ -79,7 +78,7 @@ func startJanusInstance() {
 				panic("fail deref err")
 			}
 		} else {
-			fmt.Printf("Janus finished without errors\n")
+			log.Printf("Janus finished without errors\n")
 		}
 
 		os.Exit(-1)
@@ -129,7 +128,7 @@ func main2() (exitcode int) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("succesfully connected to Janus")
+	log.Println("succesfully connected to Janus")
 
 	// not sure:
 	// one session per handle, or one per connection
@@ -156,7 +155,7 @@ func main2() (exitcode int) {
 	ln, err := net.Listen("tcp", ":8080")
 	checkPanic(err)
 
-	fmt.Println("WHIP ingress listener at:", ln.Addr().String(), rxpath)
+	log.Println("WHIP ingress listener at:", ln.Addr().String(), rxpath)
 
 	//go killme(ctx)
 

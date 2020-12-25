@@ -40,6 +40,10 @@ func watchHandle(h *janus.Handle) {
 	}
 }
 
+
+var ingestAttempted bool = false
+var ingestHandle *janus.Handle
+
 func rxwhip(w http.ResponseWriter, req *http.Request) {
 	defer req.Body.Close()
 
@@ -58,6 +62,20 @@ func rxwhip(w http.ResponseWriter, req *http.Request) {
 	offer := string(body)
 
 	// XXX should we validate the sdp?
+
+	if ingestAttempted {
+		http.Error(w, "ingest already attached or attempted/please restart", http.StatusServiceUnavailable)
+		return
+	}
+	ingestAttempted = true
+
+	ingestHandle, err = session.Attach(ctx, "janus.plugin.videoroom")
+	if err != nil {
+		println("unable to janus videoroom plugin")
+		panic(err)
+	}
+
+	go watchHandle(ingestHandle)
 
 	answer, code, err := publishJanusVideoRoom(ctx, offer)
 	if err != nil {

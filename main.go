@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net"
@@ -130,6 +131,17 @@ func main2() (exitcode int) {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc(rxpath, rxwhip)
+
+	if !*nohtml {
+		buf,err:=ioutil.ReadFile("html/index.html")
+	checkPanic(err)
+
+		// handle `/` route
+		mux.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
+			res.Header().Set("Content-Type", "text/html")
+			fmt.Fprint(res, string(buf))
+		})
+	}
 	//mux.HandleFunc(txpath, rxwhip)
 	//mux.HandleFunc("/", hello)
 

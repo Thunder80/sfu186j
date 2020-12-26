@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+    <style>
+        .tabcontent {
+            display: none;
+            animation: fadeEffect 1s;
+            /* Fading effect takes 1 second */
+        }
+
+        /* Go from zero to full opacity */
+        @keyframes fadeEffect {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half">
+                    <p class="subtitle">
+                        <strong>rtc99.org Send / Receive test page</strong>!
+                    </p>
+                    <div class="tabs is-centered is-toggle is-toggle-rounded is-fullwidth">
+                        <ul>
+                            <li name="tablinks">
+                                <a onclick="openTab(event, 'Specification')"  id="foo">
+                                    <span>Transmit</span>
+                                    <span class="icon is-small"><i class="fas fa-sign-out-alt"
+                                            aria-hidden="true"></i></span>
+                                </a>
+                            </li>
+                            <li name="tablinks">
+                                <a onclick="openTab(event, 'Reviews')">
+                                    <span>Receive</span>
+                                    <span class="icon is-small"><i class="fas fa-sign-in-alt"
+                                            aria-hidden="true"></i></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!--/tabs is-centered-->
+                    </div>
+                    <div>
+                        <div class="tabcontent" id="Specification">
+                            <p class="content">Specification Lorem Ipsum is simply dummy text of the printing and
+                                typesetting
+                                industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                when an
+                                unknown printer took a galley of type and scrambled it to make a type specimen book. It
+                                has
+                                survived not only five centuries, but also the leap into electronic typesetting,
+                                remaining
+                                essentially unchanged. It was popularised in the 1960s with the release of Letraset
+                                sheets
+                                containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                                Aldus
+                                PageMaker including versions of Lorem Ipsum.</p>
+                        </div>
+                        <div class="tabcontent" id="Reviews">
+                            <p class="content">Reviews Lorem Ipsum is simply dummy text of the printing and typesetting
+                                industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                when an
+                                unknown printer took a galley of type and scrambled it to make a type specimen book. It
+                                has
+                                survived not only five centuries, but also the leap into electronic typesetting,
+                                remaining
+                                essentially unchanged. It was popularised in the 1960s with the release of Letraset
+                                sheets
+                                containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                                Aldus
+                                PageMaker including versions of Lorem Ipsum.</p>
+                        </div>
+                    </div>
+
+                   
+
+                </div>
+                <div class="column">
+                    <figure class="image is-16by9">
+                        <video controls poster="https://peach.blender.org/wp-content/uploads/evil-frank.png"
+                            class="has-ratio" width="1280" height="720"
+                            src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                            frameborder="0" allowfullscreen></iframe>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="container">
+        </div>
+    </section>
+    <script>
+
+
+        //let rxwhipurl = window.location.origin + '/rxwhip'
+
+       // document.getElementById("originurl").textContent = rxwhipurl
+
+
+        function openTab(evt, tabTitle) {
+            var i, tabcontent, tablinks
+            tabcontent = document.getElementsByClassName("tabcontent")
+            console.log(tabcontent.length)
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none"
+            }
+            tablinks = document.getElementsByName("tablinks")
+            console.log(tablinks.length)
+            for (i = 0; i < tablinks.length; i++) {
+                console.log(tablinks[i].className)
+                tablinks[i].className = tablinks[i].className.replace(" is-active", "")
+            }
+            document.getElementById(tabTitle).style.display = "block"
+            evt.currentTarget.parentElement.className += " is-active"
+        }
+        document.getElementById('foo').click()
+
+    </script>
+</body>
+
+</html>

@@ -66,13 +66,14 @@ func startJanusInstance() {
 }
 
 var gateway *janus.Gateway
-var session *janus.Session		// just a single handle for the program, all handles
+var session *janus.Session // just a single handle for the program, all handles
 
 //var silenceJanus = flag.Bool("silence-janus", false, "if true will throw away janus output")
-var debug = flag.Bool("debug", false, "enable debug output")
+var debug = flag.Bool("debug", true, "enable debug output")
+var nohtml = flag.Bool("no-html", false, "do not serve any html files, only do WHIP")
 var noStartJanus = flag.Bool("dev-no-janus", false, "developer flag: do not start janus")
 
-var info = log.New(os.Stderr, "", log.Lmicroseconds | log.LUTC)
+var info = log.New(os.Stderr, "", log.Lmicroseconds|log.LUTC)
 
 func main() { os.Exit(main2()) }
 //can combine return X with defer func()
